@@ -1,0 +1,67 @@
+<div class="box">
+
+    <h3>Resumen académico</h3>
+
+    {% if registro %}
+        <p>
+            <strong>Promedio Final:</strong>
+            <span style="
+                background:#eee;
+                padding:5px 15px;
+                border-radius:20px;
+                margin-left:10px;
+            ">
+                {{ registro.promedio|default:"0" }}
+            </span>
+        </p>
+
+        <p>
+            <strong>Estado:</strong>
+
+            {% if registro.promedio >= 60 %}
+                <span style="
+                    color:green;
+                    font-weight:bold;
+                    margin-left:10px;
+                ">
+                    Aprobado
+                </span>
+            {% else %}
+                <span style="
+                    color:red;
+                    font-weight:bold;
+                    margin-left:10px;
+                ">
+                    Reprobado
+                </span>
+            {% endif %}
+        </p>
+
+    {% else %}
+        <p>No hay datos disponibles</p>
+    {% endif %}
+
+</div>
+
+
+<div class="box">
+
+    <h3>Reportes rápidos</h3>
+
+    <p>Accede a reportes del sistema</p>
+
+    {% if registro %}
+        <a href="{% url 'reporte_individual' %}?estudiante={{ registro.estudiante.id }}" class="btn">
+            <i class="fas fa-user"></i> Reporte Individual
+        </a>
+    {% else %}
+        <button class="btn" disabled>
+            <i class="fas fa-user"></i> Seleccione estudiante
+        </button>
+    {% endif %}
+
+    <a href="{% url 'reporte_general' %}" class="btn">
+        <i class="fas fa-users"></i> Reporte General
+    </a>
+
+</div>

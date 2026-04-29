@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="grid">
+
+    {% include 'componentes/estudiantes.html' %}
+    {% include 'componentes/notas.html' %}
+
+</div>
+
+<div class="footer">
+
+    {% include 'componentes/resumen.html' %}
+
+</div>
+
+{% endblock %}

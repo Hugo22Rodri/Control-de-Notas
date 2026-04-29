@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Reporte General</h2>
+
+<div class="card">
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Estudiante</th>
+            <th>Promedio</th>
+            <th>Estado</th>
+        </tr>
+
+        {% for r in registros %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ r.estudiante.nombre }} {{ r.estudiante.apellido }}</td>
+            <td>{{ r.promedio }}</td>
+            <td>
+                {% if r.promedio >= 60 %}
+                    <span style="color:green;">Aprobado</span>
+                {% else %}
+                    <span style="color:red;">Reprobado</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<div class="card">
+
+    <h3>Resumen</h3>
+
+    <p>Total estudiantes: {{ total }}</p>
+    <p>Aprobados: {{ aprobados }}</p>
+    <p>Reprobados: {{ reprobados }}</p>
+    <p>Promedio general: {{ promedio_general }}</p>
+
+</div>
+
+{% endblock %}

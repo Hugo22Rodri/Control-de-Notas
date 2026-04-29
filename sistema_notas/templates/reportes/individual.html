@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Reporte Individual</h2>
+
+{% if registro %}
+
+<div class="card">
+
+    <h3>Datos del Estudiante</h3>
+    <p><strong>Nombre:</strong> {{ registro.estudiante.nombre }} {{ registro.estudiante.apellido }}</p>
+    <p><strong>Cédula:</strong> {{ registro.estudiante.id_estudiante }}</p>
+
+</div>
+
+<div class="card">
+
+    <h3>Detalle de Notas</h3>
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Tipo de Evaluación</th>
+            <th>Nota</th>
+        </tr>
+
+        {% for n in notas %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ n.tipo }}</td>
+            <td>{{ n.valor }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<div class="card">
+
+    <h3>Resultado Final</h3>
+
+    <p><strong>Promedio:</strong> {{ registro.promedio }}</p>
+
+    <p>
+        <strong>Estado:</strong>
+        {% if registro.promedio >= 60 %}
+            <span style="color:green;">Aprobado</span>
+        {% else %}
+            <span style="color:red;">Reprobado</span>
+        {% endif %}
+    </p>
+
+</div>
+
+{% else %}
+
+<p>No hay estudiante seleccionado</p>
+
+{% endif %}
+
+{% endblock %}

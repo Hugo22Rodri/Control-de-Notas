@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Lista de Estudiantes</h2>
+
+<div class="card">
+
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Cédula</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+        </tr>
+
+        {% if estudiantes %}
+            {% for e in estudiantes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ e.cedula }}</td>
+                <td>{{ e.nombre }}</td>
+                <td>{{ e.apellido }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">No hay estudiantes registrados</td>
+            </tr>
+        {% endif %}
+
+    </table>
+
+</div>
+
+{% endblock %}

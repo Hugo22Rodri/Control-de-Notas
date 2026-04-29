@@ -1,0 +1,61 @@
+<div class="card">
+    <h3>Gestión de Estudiantes</h3>
+
+    {% if not estudiante_edit %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="id_estudiante" placeholder="ID Estudiante" required>
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="text" name="apellido" placeholder="Apellido" required>
+        <button class="btn" name="guardar_estudiante">Agregar Estudiante</button>
+    </form>
+    {% endif %}
+
+    {% if estudiante_edit %}
+    <div style="background: #e8f4f8; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+        <h4>Editar Estudiante</h4>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ estudiante_edit.id }}">
+            <p><strong>ID:</strong> {{ estudiante_edit.id_estudiante }}</p>
+            <input type="text" name="nombre" value="{{ estudiante_edit.nombre }}" required>
+            <input type="text" name="apellido" value="{{ estudiante_edit.apellido }}" required>
+            <button class="btn" name="editar_estudiante">Guardar Cambios</button>
+            <a href="/" class="btn" style="background: #6c757d;">Cancelar</a>
+        </form>
+    </div>
+    {% endif %}
+
+    <h4>Lista de Estudiantes</h4>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for e in estudiantes %}
+        <tr>
+            <td>{{ e.id_estudiante }}</td>
+            <td>
+                <a href="/?estudiante={{ e.id }}" style="color: #2d7be5; text-decoration: none; font-weight: 600;">
+                    {{ e.nombre }}
+                </a>
+            </td>
+            <td>{{ e.apellido }}</td>
+            <td>
+                <a href="/?edit_id={{ e.id }}" class="btn edit-btn">Editar</a>
+                <form method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ e.id }}">
+                    <button class="btn delete-btn" name="eliminar_estudiante" onclick="return confirmDelete()">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><strong>Total:</strong> {{ estudiantes|length }} estudiantes</p>
+</div>

@@ -1,0 +1,74 @@
+<div class="card">
+    <h3>Gestión de Notas</h3>
+
+    {% if registro %}
+        <!-- FORM CREAR NOTA (si no estamos editando) -->
+        {% if not nota_edit %}
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="estudiante_id" value="{{ registro.estudiante.id }}">
+            <input type="text" name="tipo" placeholder="Tipo de Evaluación" required>
+            <div style="display:flex; gap:10px;">
+                <input type="number" name="valor" placeholder="Nota" min="0" max="100" step="0.01" required>
+                <span style="align-self: center;">0-100</span>
+            </div>
+            <button class="btn" name="guardar_nota">Agregar Nota</button>
+        </form>
+        {% endif %}
+
+        <!-- FORM EDITAR NOTA -->
+        {% if nota_edit %}
+        <div style="background: #e8f4f8; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <h4>Editar Nota</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="nota_id" value="{{ nota_edit.id }}">
+                <input type="text" name="tipo" value="{{ nota_edit.tipo }}" required>
+                <div style="display:flex; gap:10px;">
+                    <input type="number" name="valor" value="{{ nota_edit.valor }}" min="0" max="100" step="0.01" required>
+                    <span style="align-self: center;">0-100</span>
+                </div>
+                <button class="btn" name="editar_nota">Guardar Cambios</button>
+                <a href="/?estudiante={{ registro.estudiante.id }}" class="btn" style="background: #6c757d;">Cancelar</a>
+            </form>
+        </div>
+        {% endif %}
+
+        <h4>Notas del Estudiante</h4>
+
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Tipo</th>
+                <th>Nota</th>
+                <th>Acción</th>
+            </tr>
+
+            {% for n in notas %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ n.tipo }}</td>
+                <td>{{ n.valor }}</td>
+                <td>
+                    <a href="/?estudiante={{ registro.estudiante.id }}&edit_nota={{ n.id }}" class="btn edit-btn">Editar</a>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="nota_id" value="{{ n.id }}">
+                        <button class="btn delete-btn" name="eliminar_nota" onclick="return confirmDelete()">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div style="text-align:right; margin-top: 15px; padding: 10px; background: #f0f0f0; border-radius: 10px;">
+            <strong>Promedio:</strong> <span style="font-size: 18px; color: #2d7be5;">{{ registro.promedio }}</span>
+        </div>
+
+        <div style="text-align:right; margin-top: 10px; padding: 10px; background: {% if registro.estado == 'Aprobado' %}#d4edda{% else %}#f8d7da{% endif %}; border-radius: 10px; font-weight: bold;">
+            Estado: <span style="color: {% if registro.estado == 'Aprobado' %}#155724{% else %}#721c24{% endif %};">{{ registro.estado }}</span>
+        </div>
+    {% else %}
+        <p style="color: #666; text-align: center; padding: 20px;">Selecciona un estudiante para gestionar sus notas</p>
+    {% endif %}
+</div>

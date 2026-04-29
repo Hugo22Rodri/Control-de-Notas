@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Notas</title>
+
+<!-- Fuente -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- CSS PROPIO -->
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Sistema de registro de Notas</h1>
+    <p>Gestión de estudiantes y sus calificaciones</p>
+</div>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <a href="{% url 'dashboard' %}" class="btn">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+
+        <a href="{% url 'estudiantes' %}" class="btn">
+            <i class="fas fa-user-graduate"></i>
+            <span>Estudiantes</span>
+        </a>
+
+        <a href="#">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Notas</span>
+        </a>
+
+        <a href="#">
+            <i class="fas fa-chart-bar"></i>
+            <span>Reportes</span>
+        </a>
+
+        <a href="#">
+            <i class="fas fa-cog"></i>
+            <span>Configuración</span>
+        </a>
+
+        <a href="#">
+            <i class="fas fa-info-circle"></i>
+            <span>Acerca de</span>
+        </a>
+
+        <a href="#">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Salir</span>
+        </a>
+
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="content">
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+<!-- JS PROPIO -->
+<script src="{% static 'js/base.js' %}"></script>
+
+</body>
+</html>
